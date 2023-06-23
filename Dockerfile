@@ -11,6 +11,14 @@ COPY ./src ./src
 
 RUN kotlinc -cp "libs/junit-jupiter-api-5.9.2.jar" -include-runtime -d app.jar src/main/kotlin/*.kt src/test/kotlin/*.kt
 
-CMD ["java", "-jar", "libs/junit-platform-console-standalone-1.9.2.jar", "--class-path", "app.jar", "--scan-class-path", "--reports-dir=reports"]
+# Create a script to conditionally run the commands based on the value of the BASE_TEST_SUITE variable
+RUN echo $'#!/bin/bash\n\
+if [ "$BASE_TEST_SUITE" = "true" ] ; then\n\
+  java -jar libs/junit-platform-console-standalone-1.9.3.jar --class-path app.jar --scan-class-path --reports-dir=reports --include-classname=.*Base.*\n\
+else\n\
+  java -jar libs/junit-platform-console-standalone-1.9.3.jar --class-path app.jar --scan-class-path --reports-dir=reports\n\
+fi\n\
+echo "Test execution completed"' > ./run-tests.sh \
+ && chmod +x ./run-tests.sh
 
-RUN echo 'Test execution completed'
+CMD ["./run-tests.sh"]
