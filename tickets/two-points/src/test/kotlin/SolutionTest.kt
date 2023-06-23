@@ -12,11 +12,6 @@ class SolutionTest {
     }
 
     @Test
-    fun `assertion failed`() {
-        assertEquals(1, 2)
-    }
-
-    @Test
     @Timeout(1)
     fun `timeout exception`() {
         Thread.sleep(2000)
