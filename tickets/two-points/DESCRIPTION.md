@@ -1,3 +1,9 @@
+---
+title: Two Points
+tags: ["kotlin", "operators"]
+difficulty: medium
+author: Yahor Barkouski
+---
 ## Two Points
 
 In the context of a two-dimensional grid, a point is represented by an `(x, y)` coordinate where x and y are integers. Your task is **to implement a function that adds two points together**.
@@ -24,7 +30,7 @@ Output: Point(4, 6)
 
 ### Example 2
 ```text
-Input: a = Point(-1, ¡), b = Point(1, -1)
+Input: a = Point(-1, 1), b = Point(1, -1)
 Output: Point(0, 0)
 ```
 
