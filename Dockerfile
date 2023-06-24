@@ -1,8 +1,9 @@
-FROM openjdk:11-jdk
+FROM openjdk:21-jdk-buster
 
 RUN wget https://github.com/JetBrains/kotlin/releases/download/v1.8.22/kotlin-compiler-1.8.22.zip \
     && unzip kotlin-compiler-1.8.22.zip -d /opt/ \
     && rm kotlin-compiler-1.8.22.zip
+
 ENV PATH="${PATH}:/opt/kotlinc/bin"
 
 WORKDIR /app
