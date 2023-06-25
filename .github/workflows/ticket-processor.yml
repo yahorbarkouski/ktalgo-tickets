@@ -1,13 +1,13 @@
-name: invoke ticker processor lambda
+name: ticker procession trigger
 
 on:
   push:
-    branches:
-      - main
+    branches: [ main ]
 
 jobs:
   deploy:
     runs-on: ubuntu-latest
+
     steps:
     - name: Checkout code
       uses: actions/checkout@v2
@@ -19,6 +19,18 @@ jobs:
         aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
         aws-region: us-west-2
 
-    - name: Invoke Lambda function
+    - name: Invoke Lambda Function
       run: |
-        curl -X GET -H "Content-Type: application/json" ${{ secrets.LAMBDA_URL }}
+        echo '{
+          "path": "/",
+          "httpMethod": "GET",
+          "headers": {
+            "Accept": "application/json"
+          }
+        }' > event.json
+        aws lambda invoke --function-name demo --payload fileb://event.json response.json
+
+    - name: Check response
+      run: |
+        sudo apt-get install jq
+        cat response.json | jq '.statusCode' | grep 200
